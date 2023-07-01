@@ -6,9 +6,8 @@ from py2neo import Graph, Node, Relationship
 graph = Graph(f'{settings.NEO4J_BOLT_URL}:{settings.NEO4J_BOLT_PORT}',
               auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD))
 
-create_person_query = '''
-MERGE (person: AdversePerson {name: $name, lower_name: $lower_name})
-RETURN person;
+get_person_query = '''
+MATCH (a:AdversePerson {lower_name: $lower_name}) return a;
 '''
 
 create_location_query = '''
@@ -16,9 +15,8 @@ MERGE (location: Location {name: $name})
 RETURN location;
 '''
 
-create_org_query = '''
-MERGE (org: Organization {name: $name, lower_name: $lower_name})
-RETURN org;
+get_org_query = '''
+MATCH (org: Organization {lower_name: $lower_name}) RETURN org;
 '''
 
 create_org_assoc_query = '''
@@ -60,9 +58,11 @@ with open('parsed_articles_sk_merged_2018_2019.jl', 'r') as file:
             if type(org_data) != dict or org_data == {}:
                 continue
 
-            # create nodes for each organization if doesn't exists
-            org_cursor = graph.run(create_org_query, name=org_data['organization'], lower_name=unidecode(org_data['organization'].lower()))
-            org_node = org_cursor.data()[0]['org']
+            
+            org_node = graph.run(get_org_query, lower_name=unidecode(org_data['organization'].lower())).evaluate()
+            if not org_node:
+                org_node = Node('Organization', name=org_data['organization'],
+                                        lower_name=unidecode(org_data['organization'].lower()))
 
             if 'associates' in org_data:
                 for org_assoc in org_data['associates']:
@@ -86,10 +86,11 @@ with open('parsed_articles_sk_merged_2018_2019.jl', 'r') as file:
         adverse_people = article_data['adverse_behaviour']
         geo_locations = article_data['gpt3_locations'] if 'gpt3_locations' in article_data else []
         for adverse_person_name in adverse_people:
-            # create adverse person node if not exists
-            person_cursor = graph.run(create_person_query, name=adverse_person_name.lower(),
-                                    lower_name=unidecode(adverse_person_name.lower()))
-            adverse_person = person_cursor.data()[0]['person']
+            adverse_person = graph.run(get_person_query, lower_name=unidecode(adverse_person_name.lower())).evaluate()
+
+            if not adverse_person:
+                adverse_person = Node('AdversePerson', name=adverse_person_name,
+                                        lower_name=unidecode(adverse_person_name.lower()))
             
             article_person_rel = Relationship(article_node, 'CONTAINS', adverse_person)
             graph.create(article_person_rel)
