@@ -3,7 +3,8 @@ import settings
 from unidecode import unidecode
 from py2neo import Graph, Node, Relationship
 
-graph = Graph(settings.NEO4J_BOLT_URL, auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD))
+graph = Graph(f'{settings.NEO4J_BOLT_URL}:{settings.NEO4J_PORT}',
+              auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD))
 
 create_person_query = '''
 MERGE (person: AdversePerson {name: $name, lower_name: $lower_name})
