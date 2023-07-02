@@ -1,3 +1,6 @@
+# OpenAPI specification
+https://app.swaggerhub.com/apis/ykbhlvck/advesea-ams-service/1.0.0
+
 # How to run
 * python3 -m venv ./venv
 * source ./venv/bin/activate
