@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: Flask REST API
+  version: 1.0.0
+paths:
+  /adverse-person/search:
+    get:
+      summary: Search adverse persons
+      parameters:
+        - name: name
+          in: query
+          description: Name of the person to search
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    locations:
+                      type: array
+                      items:
+                        type: string
+                    totalArticles:
+                      type: integer
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      security: []
+  /adverse-person/detail:
+    get:
+      summary: Get detailed information about an adverse person
+      parameters:
+        - name: name
+          in: query
+          description: Name of the person
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  adverse_behaviour:
+                    type: array
+                    items:
+                      type: string
+                  clean:
+                    type: string
+                  gpt3_adverse_behaviour_keywords:
+                    type: string
+                  gpt3_locations:
+                    type: array
+                    items:
+                      type: string
+                  gpt3_names:
+                    type: array
+                    items:
+                      type: string
+                  gpt3_organizations:
+                    type: array
+                    items:
+                      type: string
+                  keywords:
+                    type: array
+                    items:
+                      type: string
+                  language:
+                    type: string
+                  link:
+                    type: string
+                  published:
+                    type: string
+                    format: date-time
+                  region:
+                    type: string
+                  title:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      security: []
