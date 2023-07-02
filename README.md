@@ -10,3 +10,8 @@
 
 # Routes
 * /adverse-person/search?name=<name-value>
+* /adverse-person/detail?name=<name-value>
+
+## Examples
+* /adverse-person/search?name=Marian Kocner
+* /adverse-person/detail?name=Marian Kocner
