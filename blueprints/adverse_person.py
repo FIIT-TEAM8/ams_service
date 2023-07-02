@@ -34,6 +34,6 @@ def detail():
         }), 400
 
     cursor = graph.run(adv_per_articles_query, lower_name=unidecode(name.lower()))
-    query_data = cursor.data()
+    query_data = [dict(record['article']) for record in cursor.data()]
 
     return jsonify(query_data), 200
