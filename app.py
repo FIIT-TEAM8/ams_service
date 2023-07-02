@@ -1,9 +1,9 @@
 import settings
 from flask import Flask
-from blueprints.search_adverse_person import search_adverse_person
+from blueprints.adverse_person import adverse_person
 
 app = Flask(__name__)
-app.register_blueprint(search_adverse_person, name='search_adverse_person')
+app.register_blueprint(adverse_person, name='adverse_person')
 
 @app.route('/')
 def root():
