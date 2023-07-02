@@ -1,0 +1,5 @@
+__pycache__/
+venv/
+data_loader.py
+docker-compose.yaml
+parsed_articles_sk_merged_2018_2019.jl

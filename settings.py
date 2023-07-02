@@ -1,6 +1,6 @@
 import os
 
-APP_PORT = int(os.getenv('APP_PORT') or 5050)
+APP_PORT = int(os.getenv('APP_PORT') or 5000)
 
 NEO4J_BOLT_URL = str(os.getenv('NEO4J_BOLT_URL') or 'localhost')
 NEO4J_BOLT_PORT = str(os.getenv('NEO4J_PORT') or '7687')
