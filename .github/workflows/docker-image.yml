@@ -23,4 +23,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: fiitteam08/ams-service:latest
+        tags: fiitteam8/ams-service:latest
