@@ -1,7 +1,11 @@
-# OpenAPI specification
-https://app.swaggerhub.com/apis/ykbhlvck/advesea-ams-service/1.0.0
+# ams-service
 
-# How to run
+Allows user to search adverse entities in our ams data and also display detailed information about them.
+
+## OpenAPI specification
+https://app.swaggerhub.com/apis/ykbhlvck/adversea-ams-service/1.0.0
+
+## How to run
 * python3 -m venv ./venv
 * source ./venv/bin/activate
 * pip install -r requirements.txt

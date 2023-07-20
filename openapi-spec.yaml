@@ -3,13 +3,13 @@ info:
   title: Flask REST API
   version: 1.0.0
 paths:
-  /adverse-person/search:
+  /adverse-entity/search:
     get:
-      summary: Search adverse persons
+      summary: Search adverse entities
       parameters:
         - name: name
           in: query
-          description: Name of the person to search
+          description: Name of the entity to search
           required: true
           schema:
             type: string
@@ -39,13 +39,13 @@ paths:
                   message:
                     type: string
       security: []
-  /adverse-person/detail:
+  /adverse-entity/detail:
     get:
-      summary: Get detailed information about an adverse person
+      summary: Get detailed information about an adverse entity
       parameters:
         - name: name
           in: query
-          description: Name of the person
+          description: Name of the entity
           required: true
           schema:
             type: string
@@ -102,3 +102,7 @@ paths:
                   message:
                     type: string
       security: []
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ykbhlvck/adversea-ams-service/1.0.0
