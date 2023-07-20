@@ -1,9 +1,9 @@
 import settings
 from flask import Flask
-from blueprints.adverse_person import adverse_person
+from blueprints.adverse_person import adverse_entity
 
 app = Flask(__name__)
-app.register_blueprint(adverse_person, name='adverse_person')
+app.register_blueprint(adverse_entity, name='adverse_entity')
 
 @app.route('/')
 def root():

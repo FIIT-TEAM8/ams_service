@@ -12,9 +12,9 @@ https://app.swaggerhub.com/apis/ykbhlvck/advesea-ams-service/1.0.0
 * python3 ./app.py
 
 # Routes
-* /adverse-person/search?name=<name-value>
-* /adverse-person/detail?name=<name-value>
+* `/adverse-entity/search?name=<name-value>`
+* `/adverse_entity/detail?name=<name-value>`
 
 ## Examples
-* /adverse-person/search?name=Marian Kocner
-* /adverse-person/detail?name=Marian Kocner
+* `/adverse_entity/search?name=Marian Kocner`
+* `/adverse_entity/detail?name=Marian Kocner`

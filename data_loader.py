@@ -6,8 +6,8 @@ from py2neo import Graph, Node, Relationship
 graph = Graph(f'{settings.NEO4J_BOLT_URL}:{settings.NEO4J_BOLT_PORT}',
               auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD))
 
-get_person_query = '''
-MATCH (a:AdversePerson {lower_name: $lower_name}) return a;
+get_entity_query = '''
+MATCH (a:AdverseEntity {lower_name: $lower_name}) return a;
 '''
 
 create_location_query = '''
@@ -85,23 +85,23 @@ with open('parsed_articles_sk_merged_2018_2019.jl', 'r') as file:
 
         adverse_people = article_data['adverse_behaviour']
         geo_locations = article_data['gpt3_locations'] if 'gpt3_locations' in article_data else []
-        for adverse_person_name in adverse_people:
-            adverse_person = graph.run(get_person_query, lower_name=unidecode(adverse_person_name.lower())).evaluate()
+        for adverse_entity_name in adverse_people:
+            adverse_entity = graph.run(get_entity_query, lower_name=unidecode(adverse_entity_name.lower())).evaluate()
 
-            if not adverse_person:
-                adverse_person = Node('AdversePerson', name=adverse_person_name,
-                                        lower_name=unidecode(adverse_person_name.lower()))
+            if not adverse_entity:
+                adverse_entity = Node('AdverseEntity', name=adverse_entity_name,
+                                        lower_name=unidecode(adverse_entity_name.lower()))
             
-            article_person_rel = Relationship(article_node, 'CONTAINS', adverse_person)
-            graph.create(article_person_rel)
+            article_entity_rel = Relationship(article_node, 'CONTAINS', adverse_entity)
+            graph.create(article_entity_rel)
 
             for geo_location in geo_locations:
                 # create location node if not exists
                 location_cursor = graph.run(create_location_query, name=geo_location)
                 location_node = location_cursor.data()[0]['location']
 
-                if not graph.exists(Relationship(adverse_person, 'GEO_ASSOC', location_node)):
-                    # create relationship between adverse person and location only if doesn't exist
-                    person_location_rel = Relationship(adverse_person, 'GEO_ASSOC', location_node)
-                    graph.create(person_location_rel)
+                if not graph.exists(Relationship(adverse_entity, 'GEO_ASSOC', location_node)):
+                    # create relationship between adverse entity and location only if doesn't exist
+                    entity_location_rel = Relationship(adverse_entity, 'GEO_ASSOC', location_node)
+                    graph.create(entity_location_rel)
             
