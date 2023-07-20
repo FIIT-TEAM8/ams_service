@@ -1,6 +1,6 @@
 import settings
 from flask import Flask
-from blueprints.adverse_person import adverse_entity
+from blueprints.adverse_entity import adverse_entity
 
 app = Flask(__name__)
 app.register_blueprint(adverse_entity, name='adverse_entity')
