@@ -1,4 +1,4 @@
-name: Create and push Docker image to Dockerhub
+name: Push Docker image to Dockerhub and deploy docker-compose
 
 on:
   push:
@@ -24,3 +24,20 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: fiitteam8/ams-service:latest
+      
+  deploy:
+    needs: build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+    - name: Executing remote ssh docker deploy
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.HOST_MACHINE }}
+        username: ${{ secrets.DEPLOY_USERNAME }}
+        password: ${{ secrets.DEPLOY_PASSWORD }}
+        script: |
+          cd /home/fiitkar/mvp-infra
+          docker-compose pull ams-service && docker-compose -d --no-deps --build ams-service && docker system prune -f
