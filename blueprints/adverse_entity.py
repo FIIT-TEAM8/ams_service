@@ -7,7 +7,7 @@ import settings
 
 adverse_entity = Blueprint('adverse_entity', __name__, url_prefix='/adverse-entity')
 
-graph = Graph(f'{settings.NEO4J_BOLT_URL}:{settings.NEO4J_BOLT_PORT}',
+graph = Graph(f'bolt://{settings.NEO4J_BOLT_URL}:{settings.NEO4J_BOLT_PORT}',
             auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD))
 
 @adverse_entity.route('/search', methods=['GET'])
