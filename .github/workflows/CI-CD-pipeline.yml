@@ -3,6 +3,8 @@ name: Push Docker image to Dockerhub and deploy docker-compose
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - '**/README.md'
 
 jobs:
   build:
@@ -40,4 +42,4 @@ jobs:
         password: ${{ secrets.DEPLOY_PASSWORD }}
         script: |
           cd /home/fiitkar/mvp-infra
-          docker-compose pull ams-service && docker-compose -d --no-deps --build ams-service && docker system prune -f
+          docker-compose pull ams-service && docker-compose up -d --no-deps --build ams-service && docker system prune -f
