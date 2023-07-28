@@ -8,3 +8,6 @@ adv_ent_articles_query = '''
 MATCH (a:AdverseEntity {lower_name: $lower_name})--(article:Article)
 RETURN article;
 '''
+
+susy_assoc_articles_query = '''
+'''
