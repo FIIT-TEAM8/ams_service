@@ -22,3 +22,6 @@ https://app.swaggerhub.com/apis/ykbhlvck/adversea-ams-service/1.0.0
 ## Examples
 * `/adverse_entity/search?name=Marian Kocner`
 * `/adverse_entity/detail?name=Marian Kocner`
+
+# Database model
+![database model](./ams-service-db.drawio)
