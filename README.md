@@ -24,4 +24,4 @@ https://app.swaggerhub.com/apis/ykbhlvck/adversea-ams-service/1.0.0
 * `/adverse_entity/detail?name=Marian Kocner`
 
 # Database model
-![database model](./ams-service-db.drawio)
+<img src="ams-service-db.png">
