@@ -10,4 +10,7 @@ RETURN article;
 '''
 
 susy_assoc_articles_query = '''
+MATCH (a:Article)--(ae:AdverseEntity)
+WHERE $lower_name IN a.gpt3_names_ascii OR $lower_name IN a.gpt3_organizations_ascii
+RETURN DISTINCT ae.name AS adverse_entity_name;
 '''

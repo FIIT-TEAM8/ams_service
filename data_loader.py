@@ -21,6 +21,19 @@ def parse_adverse_behaviour(gpt3_adverse_behaviour):
     return adverse_behaviour
 
 
+def create_ascii_orgs_entities_locations(article_data):
+    ascii_non_ascii = {
+        'gpt3_names_ascii': 'gpt3_names',
+        'gpt3_organizations_ascii': 'gpt3_organizations',
+        'gpt3_locations_ascii': 'gpt3_locations'
+    }
+
+    for ascii_key, non_ascii_key in ascii_non_ascii.items():
+        article_data[ascii_key] = [unidecode(value.lower()) for value in article_data[non_ascii_key]]
+
+    return article_data
+
+
 graph = Graph(f'{settings.NEO4J_BOLT_URL}:{settings.NEO4J_BOLT_PORT}',
               auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD))
 
@@ -42,7 +55,7 @@ MERGE (org_assoc: OrganizationAssoc {name: $name, lower_name: $lower_name})
 return org_assoc;
 '''
 
-file = open(f'gpt_adverse_articles_lines.json', 'r')
+file = open('gpt_adverse_articles_lines.json', 'r')
 for line in file:
     article_data = json.loads(line)
 
@@ -56,20 +69,27 @@ for line in file:
     del article_data['gpt3_organizations']
 
     # process gpt3_entities
-    if 'names' in article_data['gpt3_entities']:
-        article_data['gpt3_names'] = article_data['gpt3_entities']['names'] \
-            if type(article_data['gpt3_entities']['names']) == list else []
-    if 'geographical_places' in article_data['gpt3_entities']:
+    article_data['gpt3_names'] = []
+    article_data['gpt3_organizations'] = []
+    article_data['gpt3_locations'] = []
+
+    if 'names' in article_data['gpt3_entities'] and type(article_data['gpt3_entities']['names']) == list:
+        article_data['gpt3_names'] = article_data['gpt3_entities']['names']
+        
+    if 'geographical_places' in article_data['gpt3_entities'] and \
+        type(article_data['gpt3_entities']['geographical_places']) == list:
         article_data['gpt3_locations'] = article_data['gpt3_entities']['geographical_places']
-    if 'organizations' in article_data['gpt3_entities']:
+        
+    if 'organizations' in article_data['gpt3_entities'] and \
+        type(article_data['gpt3_entities']['organizations']) == list:
         article_data['gpt3_organizations'] = article_data['gpt3_entities']['organizations']
-    if 'gpt3_organizations' in article_data:
-        article_data['gpt3_organizations'] = article_data['gpt3_organizations'] if type(article_data['gpt3_organizations']) == list else []
 
     del article_data['gpt3_entities']
     
     article_data['adverse_behaviour'] = parse_adverse_behaviour(article_data['gpt3_adverse_behaviour'])
     del article_data['gpt3_adverse_behaviour']
+
+    article_data = create_ascii_orgs_entities_locations(article_data)
 
     # create article node
     article_node = Node('Article', **article_data)

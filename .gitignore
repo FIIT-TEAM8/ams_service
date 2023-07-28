@@ -2,3 +2,4 @@ venv/
 parsed_articles*
 docker-compose.yaml
 __pycache__/
+gpt_adverse_articles_lines.json

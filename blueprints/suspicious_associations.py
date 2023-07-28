@@ -20,6 +20,6 @@ def search():
         }), 400
     
     cursor = graph.run(susy_assoc_articles_query, lower_name=unidecode(name.lower()))
-    query_data = [dict(record['result']) for record in cursor.data()]
+    query_data = [record['adverse_entity_name'] for record in cursor.data()]
 
     return jsonify(query_data), 200
