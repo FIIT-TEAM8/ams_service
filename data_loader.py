@@ -37,12 +37,12 @@ with open('parsed_articles_sk_merged_2018_2019.jl', 'r') as file:
         # process gpt3_entities
         if 'names' in article_data['gpt3_entities']:
             article_data['gpt3_names'] = article_data['gpt3_entities']['names'] \
-                if article_data['gpt3_entities']['names'] == list else []
+                if type(article_data['gpt3_entities']['names']) == list else []
         if 'geographical_places' in article_data['gpt3_entities']:
             article_data['gpt3_locations'] = article_data['gpt3_entities']['geographical_places']
         if 'organizations' in article_data['gpt3_entities']:
             article_data['gpt3_organizations'] = article_data['gpt3_entities']['organizations'] \
-                if (article_data['gpt3_entities']['organizations']) == list else []
+                if type(article_data['gpt3_entities']['organizations']) == list else []
         del article_data['gpt3_entities']
         
         gpt3_adverse_behaviour = article_data['gpt3_adverse_behaviour']
