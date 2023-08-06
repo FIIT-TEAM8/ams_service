@@ -3,6 +3,39 @@ info:
   title: Flask REST API
   version: 1.0.0
 paths:
+  /suspicious-associations/search:
+    get:
+      summary: Search suspicious associations of a given entity
+      parameters: 
+        - name: name
+          in: query
+          description: Name of the entity to search suspicious associations
+          schema:
+            type: string
+        - name: count
+          in: query
+          required: false
+          description: Number of return suspicious entities
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
   /adverse-entity/search:
     get:
       summary: Search adverse entities
