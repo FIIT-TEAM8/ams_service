@@ -22,4 +22,8 @@ def search():
     cursor = graph.run(susy_assoc_articles_query, lower_name=unidecode(name.lower()))
     query_data = [record['adverse_entity_name'] for record in cursor.data()]
 
-    return jsonify(query_data), 200
+    count = request.args.get('count', type=int)
+    if count == None or len(query_data) <= count:
+        return jsonify(query_data), 200
+
+    return jsonify(query_data[:count]), 200

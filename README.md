@@ -18,10 +18,12 @@ https://app.swaggerhub.com/apis/ykbhlvck/adversea-ams-service/1.0.0
 # Routes
 * `/adverse-entity/search?name=<name-value>`
 * `/adverse_entity/detail?name=<name-value>`
+* `/suspicious-associations/search?name=<name-value>&count=<integer>`
 
 ## Examples
 * `/adverse_entity/search?name=Marian Kocner`
 * `/adverse_entity/detail?name=Marian Kocner`
+* `/suspicious-associations/search?name=Marian Kocner&count=5`
 
 # Database model
 <img src="ams-service-db.png">

@@ -11,6 +11,8 @@ RETURN article;
 
 susy_assoc_articles_query = '''
 MATCH (a:Article)--(ae:AdverseEntity)
-WHERE $lower_name IN a.gpt3_names_ascii OR $lower_name IN a.gpt3_organizations_ascii
+WHERE (ae.lower_name <> $lower_name) AND ($lower_name IN a.gpt3_names_ascii OR $lower_name IN a.gpt3_organizations_ascii)
+WITH ae, COUNT(a) AS articleCount
+ORDER BY articleCount DESC
 RETURN DISTINCT ae.name AS adverse_entity_name;
 '''
