@@ -12,6 +12,12 @@ paths:
           description: Name of the entity to search suspicious associations
           schema:
             type: string
+        - name: count
+          in: query
+          required: false
+          description: Number of return suspicious entities
+          schema:
+            type: integer
       responses:
         '200':
           description: OK
